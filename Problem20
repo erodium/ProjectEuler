@@ -1,0 +1,51 @@
+/*
+Factorial digit sum
+Problem 20
+n! means n × (n − 1) × ... × 3 × 2 × 1
+
+For example, 10! = 10 × 9 × ... × 3 × 2 × 1 = 3628800,
+and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+
+Find the sum of the digits in the number 100!
+*/
+
+
+import java.math.BigInteger;
+
+
+
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    int startFact = 100;
+    int topFact = 100;
+    int sum = 0;
+    BigInteger fact;
+    String factAsString;
+
+
+    for (int i = startFact; i <= topFact; i++) {
+      fact = factorial(BigInteger.valueOf(i));
+      System.out.println(i + "! = " + fact);
+      factAsString = fact.toString();
+      for (char c : factAsString.toCharArray()) {
+        sum += Character.getNumericValue(c);
+      }
+      System.out.println("Sum of " + i + "! = " + sum);
+      sum = 0;
+    }
+
+
+
+
+  }
+
+  public static BigInteger factorial(BigInteger num) {
+    if (num.equals(BigInteger.valueOf(0))) return BigInteger.valueOf(1);
+    if (num.equals(BigInteger.valueOf(1))) return num;
+    return (num.multiply(factorial(num.subtract(BigInteger.valueOf(1)))));
+  }
+
+
+}

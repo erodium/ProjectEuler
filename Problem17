@@ -1,0 +1,112 @@
+/*
+Number letter counts
+Problem 17
+If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+
+
+NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+*/
+
+
+import java.lang.Math;
+
+
+public class Problem17
+{
+  public static void main(String[] args)
+  {
+    int lowerLimit = 1;
+    int upperLimit = 1000;
+    int arraySize = upperLimit - lowerLimit + 1;
+    Integer[] list = new Integer[arraySize];
+    String[] wordList = new String[arraySize];
+    int totalChars = 0;
+
+    for (int i = 0; i < arraySize; i++) {
+      list[i] = i+lowerLimit;
+      wordList[i] = convert(list[i]);
+    }
+
+    for (String i : wordList) {
+      totalChars += i.length();
+    }
+    System.out.println(totalChars);
+  }
+
+  public static String convertNumToWord(char num) {
+    switch (num) {
+      case '9': return "nine";
+      case '8': return "eight";
+      case '7': return "seven";
+      case '6': return "six";
+      case '5': return "five";
+      case '4': return "four";
+      case '3': return "three";
+      case '2': return "two";
+      case '1': return "one";
+    }
+    return "";
+  }
+
+  public static String combineWords(String thou, String hund, String tens) {
+    String result = "";
+    if(thou!="") result += thou + "thousand";
+    if(hund!="") {
+      result+=hund + "hundred";
+      if (tens!="") result += "and";
+    }
+    result += tens;
+    return result;
+  }
+
+  public static String convert(Integer num) {
+    String thou="", hund="", tens="";
+    int arrayPos = 0;
+
+    String numStr = num.toString();
+    char[] numChars = numStr.toCharArray();
+    switch (numChars.length) {
+      case 4: thou = convertNumToWord(numChars[arrayPos++]);
+      case 3: hund = convertNumToWord(numChars[arrayPos++]);
+      case 2: tens = convertNumToWord(numChars[arrayPos], numChars[arrayPos+1]); break;
+      case 1: tens = convertNumToWord(numChars[arrayPos]);
+    }
+    String words = combineWords(thou,hund,tens);
+    return words;
+  }
+
+    public static String convertNumToWord(char tens, char ones) {
+      String result = "";
+      if (tens == '1') {
+        switch (ones) {
+          case '9': return "nineteen";
+          case '8': return "eighteen";
+          case '7': return "seventeen";
+          case '6': return "sixteen";
+          case '5': return "fifteen";
+          case '4': return "fourteen";
+          case '3': return "thirteen";
+          case '2': return "twelve";
+          case '1': return "eleven";
+          case '0': return "ten";
+        }
+      }
+      switch (tens) {
+        case '9': result = "ninety"; break;
+        case '8': result = "eighty"; break;
+        case '7': result = "seventy"; break;
+        case '6': result = "sixty"; break;
+        case '5': result = "fifty"; break;
+        case '4': result = "forty"; break;
+        case '3': result = "thirty"; break;
+        case '2': result = "twenty"; break;
+        case '0': return convertNumToWord(ones);
+      }
+      if (ones != '0') result+="";
+      result+=convertNumToWord(ones);
+      return(result);
+    }
+
+}
